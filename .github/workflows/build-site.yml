@@ -1,0 +1,45 @@
+name: Build and Deploy
+on:
+  push:
+    branches:
+      - master
+jobs:
+  buildsite:
+    runs-on: windows-2019
+      - name: Checkout master branch 🛎️
+        uses: actions/checkout@v2
+        with:
+          path: site
+          persist-credentials: false
+      - name: Build with Hugo
+        run: | 
+          cd site
+          .\bin\hugo\hugo_0.59.1_Windows-64bit\hugo.exe
+      - name: Upload Artifacts 🔺
+        uses: actions/upload-artifact@v1
+        with:
+          name: site
+          path: site/public
+  deploy:
+    needs: [buildsite]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+      - name: Download Artifacts 🔻
+        uses: actions/download-artifact@v1
+        with:
+          name: site
+      - name: Delete branch
+        uses: dawidd6/action-delete-branch@v3
+        with:
+          github_token: ${{ secrets.ACCESS_TOKEN }}
+          branches: gh-pages
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: "site"
