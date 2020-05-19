@@ -6,6 +6,7 @@ on:
 jobs:
   buildsite:
     runs-on: windows-2019
+    steps:
       - name: Checkout master branch 🛎️
         uses: actions/checkout@v2
         with:
