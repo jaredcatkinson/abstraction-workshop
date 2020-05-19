@@ -31,13 +31,14 @@ jobs:
       - name: Download Artifacts 🔻
         uses: actions/download-artifact@v1
         with:
+          ref: site
           name: site
       - name: Delete branch
         uses: dawidd6/action-delete-branch@v3
         with:
           github_token: ${{ secrets.ACCESS_TOKEN }}
           branches: gh-pages
-      - name: Deploy Test 🚀
+      - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
