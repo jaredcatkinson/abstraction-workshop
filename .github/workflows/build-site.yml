@@ -9,11 +9,9 @@ jobs:
       - name: Checkout master branch 🛎️
         uses: actions/checkout@v2
         with:
-          path: site
           persist-credentials: false
       - name: Build with Hugo
         run: | 
-          cd site
           .\bin\hugo\hugo_0.59.1_Windows-64bit\hugo.exe
       - name: Upload Artifacts 🔺
         uses: actions/upload-artifact@v1
@@ -31,7 +29,6 @@ jobs:
       - name: Download Artifacts 🔻
         uses: actions/download-artifact@v1
         with:
-          ref: site
           name: site
       - name: Delete branch
         uses: dawidd6/action-delete-branch@v3
