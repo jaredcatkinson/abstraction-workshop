@@ -37,7 +37,7 @@ jobs:
         with:
           github_token: ${{ secrets.ACCESS_TOKEN }}
           branches: gh-pages
-      - name: Deploy 🚀
+      - name: Deploy Test 🚀
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
