@@ -13,7 +13,7 @@ jobs:
           persist-credentials: false
       - name: Build with Hugo
         run: | 
-          .\bin\hugo\hugo_0.59.1_Windows-64bit\hugo.exe
+          .\bin\hugo\hugo_0.59.1_Windows-64bit\hugo.exe -b "/abstraction-workshop"
       - name: Upload Artifacts 🔺
         uses: actions/upload-artifact@v1
         with:
