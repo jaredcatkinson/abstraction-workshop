@@ -14,11 +14,12 @@ jobs:
       - name: Build with Hugo
         run: | 
           .\bin\hugo\hugo_0.59.1_Windows-64bit\hugo.exe
+          ls
       - name: Upload Artifacts 🔺
         uses: actions/upload-artifact@v1
         with:
           name: site
-          path: site/public
+          path: public
   deploy:
     needs: [buildsite]
     runs-on: ubuntu-latest
