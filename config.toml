@@ -1,5 +1,5 @@
 languageCode = "en-us"
-title = "Abstraction Maps"
+title = "Abstraction Workshop"
 
 # Change the default theme to be use when building the site with Hugo
 theme = "hugo-theme-learn"
@@ -20,7 +20,7 @@ home = [ "HTML", "RSS", "JSON"]
   # Author of the site, will be used in meta information
   author = "SpecterOps"
   # Description of the site, will be used in meta information
-  description = "Abstraction Maps"
+  description = "Abstraction Workshop"
   # Shows a checkmark for visited pages on the menu
   showVisitedLinks = true
   # Disable search function. It will hide search bar
