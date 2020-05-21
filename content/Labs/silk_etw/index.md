@@ -9,15 +9,15 @@ pre = "<i class='fab fa-leanpub'></i> "
 ---
 ## Goals
 
-Understand Event Tracing for Windows.
-
-Identify Running Traces Sessions and query ETW Providers.
-
-Use SilkETW to generate and events for consumption. 
+* Understand Event Tracing for Windows.
+* Identify Running Traces Sessions and query ETW Providers.
+* Use SilkETW to generate and events for consumption. 
 
 __Scenario__
 
-You have been tasked with logging Windows RPC events, as they could correlate with possible `DCSync` attacks in your environment. You will utilize ETW to capture these events, specifically a tool called `SilkETW`. You will then run a `DCSync` attack to make sure that logs are being propagated accordingly. 
+In a previous lab we discovered that New-Service leverages RPC as part of the service creation routine. Until now we have relied on [Microsoft's Service Control Manager Remote Protocol documentation](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-scmr/705b624a-13de-43cc-b8a2-99573da3635f) to make inferences about the implementation details for New-Service's RPC interactions. Inferences are a good start, but we generally like to confirm these details through dynamic or static analysis. As a lead in to this lab, we introduced the idea of Event Tracing for Windows or ETW. This is a logging feature that is available by default on all modern versions of Windows which provides a mechanism for monitoring numerous aspects of the operating system. You are likely very familiar with at least one technology that is the result of ETW, the Windows Security Event Log. The cool thing is that ETW already feeds the Windows Security Event Log, but it also has numerous other events that remain dormant until specifically asked for.
+
+This lab will take you on a tour of one way to explore ETW natively, explain ETW concepts as they become relevant, and show how you can enable targetted logging for testing and validation all within the context of sc.exe and PowerShell's New-Service.
 
 !!! Info
     The DCSync technique is used to retrieve and dump credentials of a specified account. In order to do this, the user you are using to ‘sync’ to the Domain Controller (DC), must be a part of a high privileged group: Administrators, Domain Admins, Enterprise Admins, or a Domain Controller computer accounts. This is done by impersonating the Domain Controller, while doing so it requests user account credentials from the targeted DC.
@@ -25,18 +25,8 @@ You have been tasked with logging Windows RPC events, as they could correlate wi
 ___
 ### Requirements
 - Windows 10 VM
-- Windows Server 2016 (AD/DC)
-- SilkETW
-- Mimikatz
 
-### Step 1: Unzip Mimikatz and Prepare SilkETW: 
-- Open `File Explorer`
-- Navigate to the `C:\tools` folder
-- `Right-Click` on `mimikatz_trunk.zip`. 
-- Choose `Extract All...` and extract to `C:\tools\mimikatz`, which is the default. 
-- Click `Extract` and enter in the password of `infected`.
-
-### Step 2: Query ETW sessions and providers with `logman`.
+### Step 1: Query ETW sessions and providers with `logman`.
 1. Click on the Windows Start Menu
 
 2. In the search bar, type "powershell"
@@ -46,11 +36,22 @@ ___
 ![understanding_sysmon_1](/img/understanding_sysmon_1.png)
 
 To start, we want to take a look at all of the running trace sessions: 
+
+!!! Note
+    Describe Trace Session HERE
+    
 ```
 logman query -ets
 ```
 
-Next, let's take a look at the provider that the `EventLog-System` trace is subscribed to:
+Notice that there are already a few trace sessions running on the system by default. As mentioned earlier in the lab, the trace session where the "Data Collector Set" is set to EventLog-System is the trace session that is collecting on behalf of the Windows Security Event Log.
+
+Let's take a look to see the specific provider that the `EventLog-System` trace is subscribed to:
+
+
+!!! Note
+    Describe Providers HERE
+    
 ```
 logman query "EventLog-System" -ets
 ```
