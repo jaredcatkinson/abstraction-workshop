@@ -19,14 +19,11 @@ In a previous lab we discovered that New-Service leverages RPC as part of the se
 
 This lab will take you on a tour of one way to explore ETW natively, explain ETW concepts as they become relevant, and show how you can enable targetted logging for testing and validation all within the context of sc.exe and PowerShell's New-Service.
 
-!!! Info
-    The DCSync technique is used to...
-
 ___
 ### Requirements
 - Windows 10 VM
 
-### Step 1: Query ETW sessions and providers with `logman`
+### Step 1: Query ETW sessions and providers with "logman"
 
 1. Click on the Windows Start Menu
 
