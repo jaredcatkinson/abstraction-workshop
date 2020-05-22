@@ -36,7 +36,6 @@ ___
 To start, we want to take a look at all of the running trace sessions:
 
 !!! Note
-
     Event tracing sessions record events from [ETW Providers](https://docs.microsoft.com/en-us/windows/win32/etw/about-event-tracing#providers). These sessions are enabled by a [controller](https://docs.microsoft.com/en-us/windows/win32/etw/about-event-tracing#controllers), that is an application in charge of enabling/disabling providers, specifying the log file the tracing sessions are written to, and starting/stopping the event tracing sessions. Controllers can also update and query tracing sessions.
 
 ```
@@ -50,8 +49,7 @@ Notice that there are already a few trace sessions running on the system by defa
 Let's take a look to see the specific provider that the `EventLog-System` trace is subscribed to:
 
 !!! Note
-
-    Event Providers are similar to subjects in ETW logging. They are applications that contain the type of events you would like to create tracing sessions for. For example - the `Microsoft-Windows-RPC` provider will log events that correlate with different RPC activity.
+    Event Providers are similar to subjects in ETW logging. They are applications that contain the type of events you would like to create tracing sessions for. For example - the  `Microsoft-Windows-RPC` provider will log events that correlate with different RPC activity.
     
 ```
 logman query "EventLog-System" -ets
@@ -73,7 +71,7 @@ $ETW = logman query providers
 ```
 
 !!! Note
-This command can take a long time to finish.
+    This command can take a long time to finish.
 
 To view all of the providers related to RPC run the following command:
 ```
@@ -85,7 +83,6 @@ $ETW | Where-Object { $_ -Like “*RPC*”}
 ### Step 2: Execute a new service creation and collect the data using logman
 
 !!! Note
-    
     For this next step, we want to open up a second powershell. We will refer to this as `Powershell #2` for the rest of this lab and the first powershell window as `Powershell #1`.
 
 1. Click on the Windows Start Menu
@@ -136,7 +133,6 @@ tracerpt RPCTrace.etl -o RPCTrace.evtx -of EVTX
 6. Click "Ok"
 
 !!! Note
-    
     RPCTrace will now be under `Saved Logs` within the Event Viewer.
 
 
@@ -148,7 +144,6 @@ tracerpt RPCTrace.etl -o RPCTrace.evtx -of EVTX
 ![evtx](images/evtx.png)
 
 !!! Note
-    
     The two RPC UUID's that correlate with Service Creation are: `367ABB81-9844-35F1-AD32-98F038001003` and `338CD001-2244-31F1-AAAA-900038001003`. Read more about the [Service Control Manager Remote Protocol](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-scmr/705b624a-13de-43cc-b8a2-99573da3635f).
 
 ---
