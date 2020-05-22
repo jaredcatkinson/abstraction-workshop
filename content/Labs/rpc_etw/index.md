@@ -31,7 +31,7 @@ ___
 
 3. Right click on "Windows PowerShell" and select "Run as Administrator"
 
-![run_as_admin_powershell](/images/run_as_admin_powershell.PNG)
+![run_as_admin_powershell](images/run_as_admin_powershell.PNG)
 
 To start, we want to take a look at all of the running trace sessions:
 
@@ -42,7 +42,7 @@ To start, we want to take a look at all of the running trace sessions:
 logman query -ets
 ```
 
-![logman_query_ets](/images/logman_query_ets.PNG)
+![logman_query_ets](images/logman_query_ets.PNG)
 
 Notice that there are already a few trace sessions running on the system by default. As mentioned earlier in the lab, the trace session where the "Data Collector Set" is set to EventLog-System is the trace session that is collecting on behalf of the Windows System Event Log.
 
@@ -54,7 +54,7 @@ Let's take a look to see the specific provider that the `EventLog-System` trace 
 ```
 logman query "EventLog-System" -ets
 ```
-![logman_query_eventlog](/images/logman_query_eventlog.PNG)
+![logman_query_eventlog](images/logman_query_eventlog.PNG)
 
 Make note of the `File-Mode` field at the top of the output and `Name` & `Provider GUID` fields for each subsection. 
 
@@ -62,7 +62,7 @@ Now let's take a look at all of the providers availible:
 ```
 logman query providers
 ```
-![logman_query_providers](/images/logman_query_providers.PNG)
+![logman_query_providers](images/logman_query_providers.PNG)
 
 Because we want to filter on all of the possible providers, let's store the providers into a variable with this command:
 
@@ -71,14 +71,14 @@ $ETW = logman query providers
 ```
 
 !!! Note
-    This command can take a long time to finish.
+This command can take a long time to finish.
 
 To view all of the providers related to RPC run the following command:
 ```
 $ETW | Where-Object { $_ -Like “*RPC*”}
 ```
 
-![/img/where_ETW](/images/where_ETW.PNG)
+![/img/where_ETW](images/where_ETW.PNG)
 
 ### Step 2: Execute a new service creation and collect the data using logman
 
@@ -123,7 +123,7 @@ tracerpt RPCTrace.etl -o RPCTrace.evtx -of EVTX
 
 4. In the top left under "Action" click on "Open Saved Log..."
 
-![event_viewer](/images/event_viewer.PNG)
+![event_viewer](images/event_viewer.PNG)
 
 5. Go to the path you saved the RPCTrace.evtx file and open it.
 
@@ -141,7 +141,7 @@ tracerpt RPCTrace.etl -o RPCTrace.evtx -of EVTX
 1. In the Event Viewer on the right, click on "Find..."
 2. Type in this UUID: `367ABB81-9844-35F1-AD32-98F038001003` and press "Find Next".
 
-![evtx](/images/evtx.png)
+![evtx](images/evtx.png)
 
 !!! Note
     The two RPC UUID's that correlate with Service Creation are: `367ABB81-9844-35F1-AD32-98F038001003` and `338CD001-2244-31F1-AAAA-900038001003`. Read more about the [Service Control Manager Remote Protocol](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-scmr/705b624a-13de-43cc-b8a2-99573da3635f).
