@@ -146,6 +146,7 @@ tracerpt RPCTrace.etl -o RPCTrace.evtx -of EVTX
 !!! Note
     The two RPC UUID's that correlate with Service Creation are: `367ABB81-9844-35F1-AD32-98F038001003` and `338CD001-2244-31F1-AAAA-900038001003`. Read more about the [Service Control Manager Remote Protocol](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-scmr/705b624a-13de-43cc-b8a2-99573da3635f).
 
+---
+## Conclusion:
 
-### Conclusion:
 This lab was meant to provide a better insight into ETW events and how they can be used to look for RPC events within a host. Unforunately right now, there is no way to provde ETW level context at scale within an organization. However, there are other ways we can capture this type of information. Zeek logs over the network is one, they have a `DCE_RPC` log that will show when RPC is performed over the network.
