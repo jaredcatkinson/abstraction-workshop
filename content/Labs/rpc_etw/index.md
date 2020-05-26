@@ -93,6 +93,18 @@ $ETW | Where-Object { $_ -Like “*RPC*”}
 logman start RPCTrace -p Microsoft-Windows-RPC 0xffffffffffffffff win:Informational -ets
 ```
 
+{{% notice info %}}
+
+Breaking down the above command: 
+* `logman start RPCTrace` is going to start an event tracing session with the name "RPCTrace". 
+* `-p Microsoft-Windows-RPC` will specify the provider "Microsoft-Windows-RPC".
+* `0xffffffffffffffff` is specifying to capture all RPC Keywords. Keywords are used to classify different types of events.
+* `win:Informational` is specifying we want to collect informational events.
+* `-ets` sends the commands to the Event Tracing Session directly versus saving or scheduling.
+
+
+{{% /notice %}}
+
 5. In `Powershell #2` create a new service by typing the following command:
 
 ```
