@@ -44,16 +44,15 @@ If this is not the case, please ask for help!
 
 * Input: `Invoke-WebRequest "http://www.rohitab.com/download/api-monitor-v2r13-setup-x64.exe" -OutFile "C:\tools\api-monitor.exe"`
 
-![api](images/invoke_webrequest.png)
+![api](images/invoke-webrequest.png)
 
 This will invoke a webrequest to download the API Monitor Setup executable and set the path as "C:\tools\api-monitor.exe"
 
-* Run the setup script by running: `C:\tools\api-monitor.exe`
+* Run the setup script by running: `C:\tools\api-monitor.exe` in powershell. 
 
-* Click "Next" -> "I accept the terms..." -> "Next" -> "Next" -> "Install" -> "Finish"
+* Walk through the installation steps. 
 
-
-### Step 2: Use API Monitor for Dynamic Analysis 
+### Step 2: Use API Monitor for Dynamic Analysis
 
 * In powershell start API Monitor by inputting: `. "C:\Program Files\rohitab.com\API Monitor\apimonitor-x64.exe"`
 
