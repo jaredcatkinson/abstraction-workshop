@@ -92,12 +92,6 @@ To do this:
 
 If the command completed successfully, you will see 
 
-```
-Status   Name               DisplayName
-------   ----               -----------
-Stopped  LabService         LabService
-```
-
 ![Procmon 1](images/procmon_7.png?width=50pc)
 
 ## 3. Analyze results
@@ -130,8 +124,6 @@ We know that the Service Control Manager database is stored in the registry. Is 
 
 ![Procmon](images/registrykey.png)
 
-*  Once the filter appears in the list, click `Apply`
-
 *  We want to remove powershell.exe from the capture list, to do this uncheck its box on the left of its column within the filter listing. Your filter should now look like this: 
 
 ![Procmon](images/filter.png)
@@ -146,13 +138,9 @@ We know that the Service Control Manager database is stored in the registry. Is 
 
 ![Procmon 1](images/procmon_6.png?width=50pc)
 
-If the command completed successfully, you will see 
+If the command completed successfully, you will see this: 
 
-```
-Status   Name               DisplayName
-------   ----               -----------
-Stopped  LabService         LabService
-```
+![Procmon 1](images/procmon_7.png?width=50pc)
 
 *  Go back over to Procmon and perform analysis.
 
