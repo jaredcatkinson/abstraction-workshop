@@ -104,15 +104,7 @@ We can see in Procmon that there is an amount of activity, but reading through, 
 
 We know that the Service Control Manager database is stored in the registry. Is powershell.exe the process creating the service? No. However, we don't know which process is so lets do some more analysis to find out. 
 
-## 4. Re-analyzing Service Creation
-
-*  In your powershell.exe prompt, input: `sc.exe delete LabService`. This will remove our test service we just created. 
-
-![Procmon](images/sc_delete.png)
-
-*  In Procmon press the `Capture button` to stop capturing events. 
-
-![Procmon 1](images/procmon_5.png?width=50pc)
+## 4. Change Capture Filter
 
 *  With Procmon open, click on Filter
 
@@ -129,18 +121,6 @@ We know that the Service Control Manager database is stored in the registry. Is 
 ![Procmon](images/filter.png)
 
 *  Once the filter is removed click `Apply`
-
-*  Click on capture
-
-![Procmon 1](images/procmon_5.png?width=50pc)
-
-*  Go back into your powershell window and run: `New-Service -Name LabService -BinaryPathName C:\Windows\System32\notepad.exe` to create our test service.
-
-![Procmon 1](images/procmon_6.png?width=50pc)
-
-If the command completed successfully, you will see this: 
-
-![Procmon 1](images/procmon_7.png?width=50pc)
 
 *  Go back over to Procmon and perform analysis
 
