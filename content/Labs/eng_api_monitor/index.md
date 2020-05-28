@@ -59,21 +59,21 @@ This will invoke a webrequest to download the API Monitor Setup executable and s
 
 * When prompted, press "Ok"
 
-[api](images/api-monitor.png)
+![api](images/api-monitor.png)
 
 * Input the API(s) you want to monitor. For this exercise we will monitor API(s) that correlate directly to Services. To look for these API(s) go to "API Filter", expand "System Services", and check the "Services" box.
 
-[api](images/api-filter.png)
+![api](images/api-filter.png)
 
 * Expand "Services" and take note of the API(s) being monitored for. 
 
 * Get the Process ID of your powershell process by inputting: `$PID`
 
-[API](images/PID.png)
+![API](images/PID.png)
 
 * Under "Running Processes" find your PID, then right click and press "Start Monitoring"
 
-[api](images/start-monitoring.png)
+![api](images/start-monitoring.png)
 
 **Note**: Under "Monitoring Processes" you should now see that your powershell process is being monitored. 
 
@@ -81,7 +81,7 @@ This will invoke a webrequest to download the API Monitor Setup executable and s
 
 * Go to API Monitor and look under "Summary" to see the API(s) called
 
-[api](images/summary.png)
+![api](images/summary.png)
 
 ## Questions
 
