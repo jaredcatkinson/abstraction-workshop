@@ -142,7 +142,9 @@ If the command completed successfully, you will see this:
 
 ![Procmon 1](images/procmon_7.png?width=50pc)
 
-*  Go back over to Procmon and perform analysis.
+*  Go back over to Procmon and perform analysis
+
+![procmon](images/result.png)
 
 ## Questions: 
 
