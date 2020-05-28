@@ -128,7 +128,7 @@ We know that the Service Control Manager database is stored in the registry. Is 
 
 ![Procmon 1](images/procmon_2.png?width=50pc)
 
-5. In the Filter popup, enter the following values as: `Path begins with HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services `. Then click `Add`
+5. In the Filter popup, enter the following values as: `Path begins with HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\ `. Then click `Add`
 
 6. Once the filter appears in the list, click `Apply`
 
