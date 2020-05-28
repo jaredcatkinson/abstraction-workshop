@@ -145,8 +145,7 @@ tracerpt RPCTrace.etl -o RPCTrace.evtx -of EVTX
 
 *  Go to the path you saved the RPCTrace.evtx file and open it.
 
-!!! Note
-    If you didn't change your path when you opened up powershell the path will be - `C:\Windows\System32\RPCTrace.evtx`.
+**Note:** If you didn't change your path when you opened up powershell the path will be - `C:\Windows\System32\RPCTrace.evtx`.
 
 *  Click "Ok"
 
