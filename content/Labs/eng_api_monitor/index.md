@@ -42,7 +42,7 @@ If this is not the case, please ask for help!
 
 ![run_as_admin_powershell](images/run_as_admin_powershell.PNG)
 
-* Input: ```Invoke-WebRequest "http://www.rohitab.com/download/api-monitor-v2r13-setup-x64.exe" -OutFile "C:\tools\api-monitor.exe"```
+* Input: `Invoke-WebRequest "http://www.rohitab.com/download/api-monitor-v2r13-setup-x64.exe" -OutFile "C:\tools\api-monitor.exe"`
 
 ![api](images/invoke-webrequest.png)
 
