@@ -23,6 +23,8 @@ ___
 ### Requirements
 - Windows 10 VM
 
+## Steps
+
 ### Step 1: Query ETW sessions and providers with "logman"
 
 *  Click on the Windows Start Menu
