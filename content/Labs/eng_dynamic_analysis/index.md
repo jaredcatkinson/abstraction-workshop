@@ -126,13 +126,11 @@ We know that the Service Control Manager database is stored in the registry. Is 
 
 4. Click on Filter again
 
-![Procmon 1](images/procmon_2.png?width=50pc)
-
 5. In the Filter popup, enter the following values as: `Path begins with HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\ `. Then click `Add`
 
-6. Once the filter appears in the list, click `Apply`
+![Procmon](images/registrykey.png)
 
-![Procmon 1](images/procmon_4.png?width=50pc)
+6. Once the filter appears in the list, click `Apply`
 
 7. We want to remove powershell.exe from the capture list, to do this uncheck its box on the left of its column. Your filter should now look like this: 
 
