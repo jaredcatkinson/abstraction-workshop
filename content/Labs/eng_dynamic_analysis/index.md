@@ -118,7 +118,7 @@ We know that the Service Control Manager database is stored in the registry. Is 
 
 *  In Procmon press the `Capture button` to stop capturing events. 
 
-![Procmon 1](images/procmon_3.png?width=50pc)
+![Procmon 1](images/procmon_5.png?width=50pc)
 
 *  With Procmon open, click on Filter
 
