@@ -1,6 +1,6 @@
 +++
-title = "Engineer a Detection - Dynamic Analysis"
-menuTitle = "Engineer a Detection - Dynamic Analysis"
+title = "Engineer a Detection - Procmon"
+menuTitle = "Engineer a Detection - Procmon"
 chapter = false
 weight = 306
 pre = "<i class='fab fa-leanpub'></i> "
