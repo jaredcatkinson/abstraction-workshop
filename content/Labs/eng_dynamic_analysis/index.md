@@ -132,7 +132,7 @@ We know that the Service Control Manager database is stored in the registry. Is 
 
 6. Once the filter appears in the list, click `Apply`
 
-7. We want to remove powershell.exe from the capture list, to do this uncheck its box on the left of its column. Your filter should now look like this: 
+7. We want to remove powershell.exe from the capture list, to do this uncheck its box on the left of its column within the filter listing. Your filter should now look like this: 
 
 ![Procmon](images/filter.png)
 
