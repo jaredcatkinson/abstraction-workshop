@@ -1,6 +1,6 @@
 +++
-title = "Logman ETW"
-menuTitle = "Logman ETW"
+title = "Engineer a Detection - Logman ETW"
+menuTitle = "Engineer a Detection - Logman ETW"
 chapter = false
 weight = 330
 pre = "<i class='fab fa-leanpub'></i> "
