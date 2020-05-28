@@ -25,11 +25,11 @@ ___
 
 ### Step 1: Query ETW sessions and providers with "logman"
 
-1. Click on the Windows Start Menu
+*  Click on the Windows Start Menu
 
-2. In the search bar, type "powershell"
+*  In the search bar, type "powershell"
 
-3. Right click on "Windows PowerShell" and select "Run as Administrator"
+*  Right click on "Windows PowerShell" and select "Run as Administrator"
 
 ![run_as_admin_powershell](images/run_as_admin_powershell.PNG)
 
@@ -81,13 +81,13 @@ $ETW | Where-Object { $_ -Like “*RPC*”}
 
 **Note:** For this next step, we want to open up a second powershell. We will refer to this as `Powershell #2` for the rest of this lab and the first powershell window as `Powershell #1`.
 
-1. Click on the Windows Start Menu
+*  Click on the Windows Start Menu
 
-2. In the search bar, type "powershell"
+*  In the search bar, type "powershell"
 
-3. Right click on "Powershell" and select "Run as Administrator".
+*  Right click on "Powershell" and select "Run as Administrator".
 
-4. In `Powershell #1` start an event tracing session by typing: 
+*  In `Powershell #1` start an event tracing session by typing: 
    
 ```
 logman start RPCTrace -p Microsoft-Windows-RPC 0xffffffffffffffff win:Informational -ets
@@ -115,13 +115,13 @@ Breaking down the above command:
 
 {{% /notice %}}
 
-5. In `Powershell #2` create a new service by typing the following command:
+* In `Powershell #2` create a new service by typing the following command:
 
 ```
 New-Service -Name "Test_Service" -BinaryPathName C:\Windows\System32\calc.exe
 ```
 
-6. In `Powershell #1` stop the tracing session
+*  In `Powershell #1` stop the tracing session
 
 ```
 logman stop RPCTrace -ets
@@ -129,34 +129,34 @@ logman stop RPCTrace -ets
 
 ### Step 3: Change the ETL file to EVTX and import into the Event Log
 
-1. In `Powershell #1` output the ETL file to EVTX
+*  In `Powershell #1` output the ETL file to EVTX
 
 ```
 tracerpt RPCTrace.etl -o RPCTrace.evtx -of EVTX
 ```
 
-2. In the Start Menu type "Event Viewer"
+*  In the Start Menu type "Event Viewer"
 
-3. Click on "Event Viewer"
+*  Click on "Event Viewer"
 
-4. In the top left under "Action" click on "Open Saved Log..."
+*  In the top left under "Action" click on "Open Saved Log..."
 
 ![event_viewer](images/event_viewer.PNG)
 
-5. Go to the path you saved the RPCTrace.evtx file and open it.
+*  Go to the path you saved the RPCTrace.evtx file and open it.
 
 !!! Note
     If you didn't change your path when you opened up powershell the path will be - `C:\Windows\System32\RPCTrace.evtx`.
 
-6. Click "Ok"
+*  Click "Ok"
 
 **Note:** RPCTrace will now be under `Saved Logs` within the Event Viewer.
 
 
 ### Step 4: Analyze the RPC logs
 
-1. In the Event Viewer on the right, click on "Find..."
-2. Type in this UUID: `367ABB81-9844-35F1-AD32-98F038001003` and press "Find Next".
+*  In the Event Viewer on the right, click on "Find..."
+*  Type in this UUID: `367ABB81-9844-35F1-AD32-98F038001003` and press "Find Next".
 
 ![evtx](images/evtx.png)
 

@@ -38,12 +38,12 @@ If this is not the case, please ask for help!
 
 ## 1. Open Procmon: 
 
-1. Open File Explorer and navigate to `C:\tools\SysinteralsSuite`
+* Open File Explorer and navigate to `C:\tools\SysinteralsSuite`
 
 ![Procmon](images/procmon_9.png?width=50pc)
 
-2. Right click on `Procmon64.exe` and click "Run as administrator"
-3. Click on "Agree" on the License Agreement
+* Right click on `Procmon64.exe` and click "Run as administrator"
+* Click on "Agree" on the License Agreement
 
 Procmon should be open and ready to use: 
 
@@ -55,23 +55,23 @@ Now that we have an example of a common method to install a service, we are goin
 
 Follow the steps below to set Procmon up:
 
-1. With Procmon open, click on Filter
+*  With Procmon open, click on Filter
 
 ![Procmon 1](images/procmon_1.png?width=50pc)
 
-2. Click on Filter again
+*  Click on Filter again
 
 ![Procmon 1](images/procmon_2.png?width=50pc)
 
-3. In the Filter popup, enter the following values as: `Process Name is powershell.exe`. See screenshot for reference. Once these values are added, click `Add`
+*  In the Filter popup, enter the following values as: `Process Name is powershell.exe`. See screenshot for reference. Once these values are added, click `Add`
 
 ![Procmon 1](images/procmon_3.png?width=50pc)
 
-4. Once the filter appears in the list, click Apply
+*  Once the filter appears in the list, click Apply
 
 ![Procmon 1](images/procmon_4.png?width=50pc)
 
-5. Click on capture
+*  Click on capture
 
 ![Procmon 1](images/procmon_5.png?width=50pc)
 
@@ -83,8 +83,8 @@ Now that Procmon is configured, we need to install a service using `powershell.e
 
 To do this:
 
-1. Open an Administrative PowerShell window
-2. Run the following command:
+*  Open an Administrative PowerShell window
+*  Run the following command:
 
 `New-Service -Name LabService -BinaryPathName C:\Windows\System32\notepad.exe`
 
@@ -112,37 +112,37 @@ We know that the Service Control Manager database is stored in the registry. Is 
 
 ## 4. Re-analyzing Service Creation
 
-1. In your powershell.exe prompt, input: `sc.exe delete LabService`. This will remove our test service we just created. 
+*  In your powershell.exe prompt, input: `sc.exe delete LabService`. This will remove our test service we just created. 
 
 ![Procmon](images/sc_delete.png)
 
-2. In Procmon press the `Capture button` to stop capturing events. 
+*  In Procmon press the `Capture button` to stop capturing events. 
 
 ![Procmon 1](images/procmon_3.png?width=50pc)
 
-3. With Procmon open, click on Filter
+*  With Procmon open, click on Filter
 
 ![Procmon 1](images/procmon_1.png?width=50pc)
 
-4. Click on Filter again
+*  Click on Filter again
 
-5. In the Filter popup, enter the following values as: `Path begins with HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\ `. Then click `Add`
+*  In the Filter popup, enter the following values as: `Path begins with HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\ `. Then click `Add`
 
 ![Procmon](images/registrykey.png)
 
-6. Once the filter appears in the list, click `Apply`
+*  Once the filter appears in the list, click `Apply`
 
-7. We want to remove powershell.exe from the capture list, to do this uncheck its box on the left of its column within the filter listing. Your filter should now look like this: 
+*  We want to remove powershell.exe from the capture list, to do this uncheck its box on the left of its column within the filter listing. Your filter should now look like this: 
 
 ![Procmon](images/filter.png)
 
-8. Once the filter is removed click `Apply`
+*  Once the filter is removed click `Apply`
 
-9. Click on capture
+*  Click on capture
 
 ![Procmon 1](images/procmon_5.png?width=50pc)
 
-10. Go back into your powershell window and run: `New-Service -Name LabService -BinaryPathName C:\Windows\System32\notepad.exe` to create our test service.
+*  Go back into your powershell window and run: `New-Service -Name LabService -BinaryPathName C:\Windows\System32\notepad.exe` to create our test service.
 
 ![Procmon 1](images/procmon_6.png?width=50pc)
 
@@ -154,7 +154,7 @@ Status   Name               DisplayName
 Stopped  LabService         LabService
 ```
 
-11. Go back over to Procmon and perform analysis.
+*  Go back over to Procmon and perform analysis.
 
 ## Questions: 
 
