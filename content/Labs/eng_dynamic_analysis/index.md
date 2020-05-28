@@ -16,7 +16,10 @@ Review previous labs for process similarities in order to accomplish the main ob
 
 ## Goals
 
-### By the end of this lab, you should
+### By the end of this lab, you should be able to
+
+* Understand how to use Procmon
+* Understand how to perform dynamic analysis with Procmon
 
 {{% notice warning %}}
 If this is not the case, please ask for help!
@@ -24,9 +27,8 @@ If this is not the case, please ask for help!
 
 ## Requirements
 
-- Access to the Windows network
 - Access to the Windows 10 student system
-- Windows Sysinternals
+- Sysinterals Procmon
 
 {{%attachments title="Lab files" style="blue" /%}}
 
@@ -34,39 +36,50 @@ If this is not the case, please ask for help!
 
 ## Steps
 
-## 1. Set up Procmon for dynamic analysis
+## 1. Open Procmon: 
 
-Now that we have an example of a common method to install a service, we are going to use Procmon to dynamically analyze what happens when New-Service creates a service.
+1. Open File Explorer and navigate to `C:\tools\SysinteralsSuite`
+
+![Procmon](images/procmon_9.png?width=50pc)
+
+2. Right click on `Procmon64.exe` and click "Run as administrator"
+3. Click on "Agree" on the License Agreement
+
+Procmon should be open and ready to use: 
+
+![Procmon](images/procmon_10.png?width=50pc)
+
+## 2. Set up Procmon for dynamic analysis
+
+Now that we have an example of a common method to install a service, we are going to use Procmon to dynamically analyze what happens when the `New-Service` powershell cmdlet creates a service.
 
 Follow the steps below to set Procmon up:
 
-1. Download/Navigate to "insert procmon path"
-2. Run `procmon.exe`
-3. Click on Filter
+1. With Procmon open, click on Filter
 
 ![Procmon 1](images/procmon_1.png?width=50pc)
 
-4. Click on Filter again
+2. Click on Filter again
 
 ![Procmon 1](images/procmon_2.png?width=50pc)
 
-5. In the Filter popup, enter the following values as shown in the screenshot, and click Add
+3. In the Filter popup, enter the following values as: `Process Name is powershell.exe`. See screenshot for reference. Once these values are added, click `Add`
 
 ![Procmon 1](images/procmon_3.png?width=50pc)
 
-6. Once the filter appears in the list, click Apply
+4. Once the filter appears in the list, click Apply
 
 ![Procmon 1](images/procmon_4.png?width=50pc)
 
-7. Click on capture
+5. Click on capture
 
 ![Procmon 1](images/procmon_5.png?width=50pc)
 
-Procmon is now configured to show us events for only `POWERSHELL.EXE` activity on our system
+Procmon is now configured to show us events for only `powershell.exe` activity on our system
 
 ## 2. Run example using Procmon
 
-Now that Procmon is configured, we need to install a service using `POWERSHELL.EXE`
+Now that Procmon is configured, we need to install a service using `powershell.exe`
 
 To do this:
 
@@ -93,7 +106,61 @@ Now that our service has been created, we need to see what clues are contained i
 
 ![Procmon 1](images/procmon_8.png?width=50pc)
 
-We can see in Procmon that there is an amount of activity, but reading through, we see no evidence of interaction with `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services`. This may come as a suprise at first, but let's think about it. We know that the Service Control Manager is an RPC server, and it stores its database in the registry, this would indicate that PowerShell would contact the SCM in order to create the service.
+We can see in Procmon that there is an amount of activity, but reading through, we see no evidence of interaction with `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services`. Why is this? 
 
-We don't know which process this is, so we need to modify our approach a little bit. Using a different tool in our arsenal, Sysmon, we can monitor the registry path and see what is making the registry changes.
+We know that the Service Control Manager database is stored in the registry. Is powershell.exe the process creating the service? No. However, we don't know which process is so lets do some more analysis to find out. 
 
+## 4. Re-analyzing Service Creation
+
+1. In your powershell.exe prompt, input: `sc.exe delete LabService`. This will remove our test service we just created. 
+
+![Procmon](images/sc_delete.png)
+
+2. In Procmon press the `Capture button` to stop capturing events. 
+
+![Procmon 1](images/procmon_3.png?width=50pc)
+
+3. With Procmon open, click on Filter
+
+![Procmon 1](images/procmon_1.png?width=50pc)
+
+4. Click on Filter again
+
+![Procmon 1](images/procmon_2.png?width=50pc)
+
+5. In the Filter popup, enter the following values as: `Path begins with HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services `. Then click `Add`
+
+6. Once the filter appears in the list, click `Apply`
+
+![Procmon 1](images/procmon_4.png?width=50pc)
+
+7. We want to remove powershell.exe from the capture list, to do this uncheck its box on the left of its column. Your filter should now look like this: 
+
+![Procmon](images/filter.png)
+
+8. Once the filter is removed click `Apply`
+
+9. Click on capture
+
+![Procmon 1](images/procmon_5.png?width=50pc)
+
+10. Go back into your powershell window and run: `New-Service -Name LabService -BinaryPathName C:\Windows\System32\notepad.exe` to create our test service.
+
+![Procmon 1](images/procmon_6.png?width=50pc)
+
+If the command completed successfully, you will see 
+
+```
+Status   Name               DisplayName
+------   ----               -----------
+Stopped  LabService         LabService
+```
+
+11. Go back over to Procmon and perform analysis.
+
+## Questions: 
+
+- What is the process name that created the service? 
+- Why is this process used? Does it relate to RPC? If so - how? 
+- How is powershell calling this process to create this service? 
+- What is the full path name of the registry key? 
