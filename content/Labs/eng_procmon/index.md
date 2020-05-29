@@ -2,7 +2,7 @@
 title = "Engineer a Detection - Procmon"
 menuTitle = "Engineer a Detection - Procmon"
 chapter = false
-weight = 306
+weight = 3
 pre = "<i class='fab fa-leanpub'></i> "
 +++
 

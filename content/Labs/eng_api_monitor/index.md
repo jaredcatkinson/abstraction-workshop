@@ -2,7 +2,7 @@
 title = "Engineer a Detection - API Monitor"
 menuTitle = "Engineer a Detection - API Monitor"
 chapter = false
-weight = 306
+weight = 1
 pre = "<i class='fab fa-leanpub'></i> "
 +++
 

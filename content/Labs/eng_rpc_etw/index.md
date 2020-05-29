@@ -2,7 +2,7 @@
 title = "Engineer a Detection - Logman ETW"
 menuTitle = "Engineer a Detection - Logman ETW"
 chapter = false
-weight = 330
+weight = 2
 pre = "<i class='fab fa-leanpub'></i> "
 +++
 
