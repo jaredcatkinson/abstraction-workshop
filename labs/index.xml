@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Labs on Abstraction Workshop</title>
+    <link>/abstraction-workshop/labs/</link>
+    <description>Recent content in Labs on Abstraction Workshop</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="/abstraction-workshop/labs/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Engineer a Detection - API Monitor</title>
+      <link>/abstraction-workshop/labs/eng_api_monitor/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/abstraction-workshop/labs/eng_api_monitor/</guid>
+      <description>Description We want to determine what API(s) are called when creating a service. To do this, we can dynamically analyze a process of choice and see what API(s) it calls to perform its action. In this lab we will walk through how to utilize a tool called &amp;ldquo;API Monitor&amp;rdquo; to see which API(s) are called when we use powershell.exe to create a service.
+Goals By the end of this lab, you should be able to  Understand how to use API Monitor Understand how to perform dynamic analysis with API Monitor  If this is not the case, please ask for help!</description>
+    </item>
+    
+    <item>
+      <title>Engineer a Detection - Logman ETW</title>
+      <link>/abstraction-workshop/labs/eng_rpc_etw/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/abstraction-workshop/labs/eng_rpc_etw/</guid>
+      <description>Goals  Understand Event Tracing for Windows. Identify Running Traces Sessions and query ETW Providers. Use Powershell and Logman to generate and events for consumption.  Scenario
+In a previous lab we discovered that New-Service leverages RPC as part of the service creation routine. Until now we have relied on Microsoft&amp;rsquo;s Service Control Manager Remote Protocol documentation to make inferences about the implementation details for New-Service&amp;rsquo;s RPC interactions. Inferences are a good start, but we generally like to confirm these details through dynamic or static analysis.</description>
+    </item>
+    
+    <item>
+      <title>Engineer a Detection - Procmon</title>
+      <link>/abstraction-workshop/labs/eng_procmon/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/abstraction-workshop/labs/eng_procmon/</guid>
+      <description>Description Now that we have selected New Service as our technique, and used the detection guidance within MITRE ATT&amp;amp;CK to research common utilities. We have chosen to focus on PowerShell&amp;rsquo;s New-Service cmdlet as one of the most common methods to install services. In this next step, we will monitor SC.EXE with Procmon to dynamically analyze how it creates a service, and continue filling out the abstraction map.
+Review previous labs for process similarities in order to accomplish the main objective(s)</description>
+    </item>
+    
+  </channel>
+</rss>

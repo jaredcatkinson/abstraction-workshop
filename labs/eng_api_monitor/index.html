@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en" class="js csstransforms3d">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Hugo 0.59.1" />
+    <meta name="description" content="Abstraction Workshop">
+<meta name="author" content="SpecterOps">
+
+    <link rel="shortcut icon" href="/abstraction-workshop/images/favicon.png" type="image/x-icon" />
+
+    <title>Engineer a Detection - API Monitor :: Abstraction Workshop</title>
+
+    
+    <link href="/abstraction-workshop/css/nucleus.css" rel="stylesheet">
+    <link href="/abstraction-workshop/css/fontawesome-all.min.css" rel="stylesheet">
+    <link href="/abstraction-workshop/css/hybrid.css" rel="stylesheet">
+    <link href="/abstraction-workshop/css/featherlight.min.css" rel="stylesheet">
+    <link href="/abstraction-workshop/css/perfect-scrollbar.min.css" rel="stylesheet">
+    <link href="/abstraction-workshop/css/auto-complete.css" rel="stylesheet">
+    <link href="/abstraction-workshop/css/atom-one-dark-reasonable.css" rel="stylesheet">
+    <link href="/abstraction-workshop/css/theme.css" rel="stylesheet">
+    <link href="/abstraction-workshop/css/hugo-theme.css" rel="stylesheet">
+    
+      <link href="/abstraction-workshop/css/theme-specterops.css" rel="stylesheet">
+    
+
+    <script src="/abstraction-workshop/js/jquery-3.3.1.min.js"></script>
+
+    <style>
+      :root #header + #content > #left > #rlblock_left{
+          display:none !important;
+      }
+      
+    </style>
+    
+  </head>
+  <body class="" data-url="/abstraction-workshop/labs/eng_api_monitor/">
+    <nav id="sidebar" class="showVisitedLinks">
+
+
+
+  <div id="header-wrapper">
+    <div id="header">
+      <a id="logo" href="/abstraction-workshop">
+    <font color="white"><i class='fas fa-home'></i> Workshop</font>
+</a>
+
+    </div>
+    
+        <div class="searchbox">
+    <label for="search-by"><i class="fas fa-search"></i></label>
+    <input data-search-input id="search-by" type="search" placeholder="Search...">
+    <span data-search-clear=""><i class="fas fa-times"></i></span>
+</div>
+
+<script type="text/javascript" src="/abstraction-workshop/js/lunr.min.js"></script>
+<script type="text/javascript" src="/abstraction-workshop/js/auto-complete.js"></script>
+<script type="text/javascript">
+    
+        var baseurl = "\/abstraction-workshop";
+    
+</script>
+<script type="text/javascript" src="/abstraction-workshop/js/search.js"></script>
+
+    
+  </div>
+
+    <div class="highlightable">
+    <ul class="topics">
+
+        
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/abstraction-workshop/labs/" title="Labs" class="dd-item 
+        parent
+        
+        
+        ">
+      <a href="/abstraction-workshop/labs/">
+          <i class='fas fa-flask'></i> Labs
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/abstraction-workshop/labs/eng_api_monitor/" title="Engineer a Detection - API Monitor" class="dd-item active">
+        <a href="/abstraction-workshop/labs/eng_api_monitor/">
+        <i class='fab fa-leanpub'></i> Engineer a Detection - API Monitor
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/abstraction-workshop/labs/eng_rpc_etw/" title="Engineer a Detection - Logman ETW" class="dd-item ">
+        <a href="/abstraction-workshop/labs/eng_rpc_etw/">
+        <i class='fab fa-leanpub'></i> Engineer a Detection - Logman ETW
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/abstraction-workshop/labs/eng_procmon/" title="Engineer a Detection - Procmon" class="dd-item ">
+        <a href="/abstraction-workshop/labs/eng_procmon/">
+        <i class='fab fa-leanpub'></i> Engineer a Detection - Procmon
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+         
+    </ul>
+
+    
+    
+      <section id="shortcuts">
+        <h3>More</h3>
+        <ul>
+          
+              <li> 
+                  <a class="padding" href="/abstraction-workshop/"><i class='fas fa-home'></i> Home</a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="https://specterops.io"><i class='fas fa-ghost'></i> Specterops</a>
+              </li>
+          
+        </ul>
+      </section>
+    
+
+    
+    <section id="prefooter">
+      <hr/>
+      <ul>
+      
+      
+      
+        <li><a class="padding" href="#" data-clear-history-toggle=""><i class="fas fa-history fa-fw"></i> Clear History</a></li>
+      
+      </ul>
+    </section>
+    
+    <section id="footer">
+      
+    </section>
+  </div>
+</nav>
+
+
+
+
+
+        <section id="body">
+        <div id="overlay"></div>
+        <div class="padding highlightable">
+              
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/abstraction-workshop/'></a> > <a href='/abstraction-workshop/labs/'>Labs</a> > Engineer a Detection - API Monitor
+          
+         
+          
+         
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#description">Description</a></li>
+<li><a href="#goals">Goals</a>
+<ul>
+<li><a href="#by-the-end-of-this-lab-you-should-be-able-to">By the end of this lab, you should be able to</a></li>
+</ul></li>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#steps">Steps</a>
+<ul>
+<li><a href="#step-1-install-api-monitor">Step 1: Install API Monitor</a></li>
+<li><a href="#step-2-use-api-monitor-for-dynamic-analysis">Step 2: Use API Monitor for Dynamic Analysis</a></li>
+</ul></li>
+<li><a href="#questions">Questions</a></li>
+</ul></li>
+</ul>
+</nav>
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
+        <div id="head-tags">
+        
+        </div>
+        
+        <div id="body-inner">
+          
+            <h1>
+              
+              Engineer a Detection - API Monitor
+            </h1>
+          
+
+        
+
+
+
+
+
+<h2 id="description">Description</h2>
+
+<p>We want to determine what API(s) are called when creating a service. To do this, we can dynamically analyze a process of choice and see what API(s) it calls to perform its action. In this lab we will walk through how to utilize a tool called &ldquo;API Monitor&rdquo; to see which API(s) are called when we use powershell.exe to create a service.</p>
+
+<h2 id="goals">Goals</h2>
+
+<h3 id="by-the-end-of-this-lab-you-should-be-able-to">By the end of this lab, you should be able to</h3>
+
+<ul>
+<li>Understand how to use API Monitor</li>
+<li>Understand how to perform dynamic analysis with API Monitor</li>
+</ul>
+
+
+<div class="notices warning" ><p>If this is not the case, please ask for help!</p>
+</div>
+
+
+<h2 id="requirements">Requirements</h2>
+
+<ul>
+<li>Access to the Windows 10 student system</li>
+<li>API Monitor</li>
+</ul>
+
+
+<section class="attachments blue">
+	<label>
+		<i class="fas fa-paperclip" aria-hidden="true"></i>
+		Lab files
+	</label>
+	
+		
+	
+	<div class="attachments-files">
+	
+		
+	
+
+	<p>None</p>
+	
+
+	<div>
+		
+	
+</section>
+
+
+
+<hr />
+
+<h2 id="steps">Steps</h2>
+
+<h3 id="step-1-install-api-monitor">Step 1: Install API Monitor</h3>
+
+<ul>
+<li><p>Click on the Windows Start Menu</p></li>
+
+<li><p>In the search bar, type &ldquo;powershell&rdquo;</p></li>
+
+<li><p>Right click on &ldquo;Windows PowerShell&rdquo; and select &ldquo;Run as Administrator&rdquo;</p></li>
+</ul>
+
+<p><img src="images/run_as_admin_powershell.PNG" alt="run_as_admin_powershell" /></p>
+
+<ul>
+<li>Input: <code>Invoke-WebRequest &quot;http://www.rohitab.com/download/api-monitor-v2r13-setup-x64.exe&quot; -OutFile &quot;C:\tools\api-monitor.exe&quot;</code></li>
+</ul>
+
+<p><img src="images/invoke-webrequest.png" alt="api" /></p>
+
+<p>This will invoke a webrequest to download the API Monitor Setup executable and set the path as &ldquo;C:\tools\api-monitor.exe&rdquo;</p>
+
+<ul>
+<li><p>Run the setup script by running: <code>C:\tools\api-monitor.exe</code> in powershell.</p></li>
+
+<li><p>Walk through the installation steps.</p></li>
+</ul>
+
+<h3 id="step-2-use-api-monitor-for-dynamic-analysis">Step 2: Use API Monitor for Dynamic Analysis</h3>
+
+<ul>
+<li><p>Go to the Start Menu, and search for API Monitor (64) and open it</p></li>
+
+<li><p>When prompted, press &ldquo;Ok&rdquo;</p></li>
+</ul>
+
+<p><img src="images/api-monitor.png" alt="api" /></p>
+
+<ul>
+<li>Input the API(s) you want to monitor. For this exercise we will monitor API(s) that correlate directly to Services. To look for these API(s) go to &ldquo;API Filter&rdquo;, expand &ldquo;System Services&rdquo;, and check the &ldquo;Services&rdquo; box.</li>
+</ul>
+
+<p><img src="images/api-filter.png" alt="api" /></p>
+
+<ul>
+<li><p>Expand &ldquo;Services&rdquo; and take note of the API(s) being monitored for.</p></li>
+
+<li><p>Get the Process ID of your powershell process by inputting: <code>$PID</code></p></li>
+</ul>
+
+<p><img src="images/PID.png" alt="API" /></p>
+
+<ul>
+<li>Under &ldquo;Running Processes&rdquo; find your PID, then right click and press &ldquo;Start Monitoring&rdquo;</li>
+</ul>
+
+<p><img src="images/start-monitoring.png" alt="api" /></p>
+
+<p><strong>Note</strong>: Under &ldquo;Monitoring Processes&rdquo; you should now see that your powershell process is being monitored.</p>
+
+<ul>
+<li><p>In your powershell window, input: <code>New-Service -Name abstraction -BinaryPathName C:\Windows\notepad.exe -DisplayName abstraction -StartupType Automatic</code></p></li>
+
+<li><p>Go to API Monitor and look under &ldquo;Summary&rdquo; to see the API(s) called</p></li>
+</ul>
+
+<p><img src="images/summary.png" alt="api" /></p>
+
+<h2 id="questions">Questions</h2>
+
+<ul>
+<li>What API(s) were called when creating a service?</li>
+<li>Did any API(s) fire you did not expect to see?</li>
+</ul>
+
+
+<footer class=" footline" >
+	
+</footer>
+
+
+        
+        </div> 
+        
+
+      </div>
+
+    <div id="navigation">
+        
+        
+        
+        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+        
+        
+
+
+	 
+	 
+    </div>
+
+    </section>
+    
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="/abstraction-workshop/js/clipboard.min.js"></script>
+    <script src="/abstraction-workshop/js/perfect-scrollbar.min.js"></script>
+    <script src="/abstraction-workshop/js/perfect-scrollbar.jquery.min.js"></script>
+    <script src="/abstraction-workshop/js/jquery.sticky.js"></script>
+    <script src="/abstraction-workshop/js/featherlight.min.js"></script>
+    <script src="/abstraction-workshop/js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="/abstraction-workshop/js/modernizr.custom-3.6.0.js"></script>
+    <script src="/abstraction-workshop/js/learn.js"></script>
+    <script src="/abstraction-workshop/js/hugo-learn.js"></script>
+
+    <link href="/abstraction-workshop/mermaid/mermaid.css" rel="stylesheet" />
+    <script src="/abstraction-workshop/mermaid/mermaid.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+    <script src="/abstraction-workshop/js/extra.js"></script>
+
+  </body>
+</html>
+

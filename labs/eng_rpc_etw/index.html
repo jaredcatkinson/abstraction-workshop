@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en" class="js csstransforms3d">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Hugo 0.59.1" />
+    <meta name="description" content="Abstraction Workshop">
+<meta name="author" content="SpecterOps">
+
+    <link rel="shortcut icon" href="/abstraction-workshop/images/favicon.png" type="image/x-icon" />
+
+    <title>Engineer a Detection - Logman ETW :: Abstraction Workshop</title>
+
+    
+    <link href="/abstraction-workshop/css/nucleus.css" rel="stylesheet">
+    <link href="/abstraction-workshop/css/fontawesome-all.min.css" rel="stylesheet">
+    <link href="/abstraction-workshop/css/hybrid.css" rel="stylesheet">
+    <link href="/abstraction-workshop/css/featherlight.min.css" rel="stylesheet">
+    <link href="/abstraction-workshop/css/perfect-scrollbar.min.css" rel="stylesheet">
+    <link href="/abstraction-workshop/css/auto-complete.css" rel="stylesheet">
+    <link href="/abstraction-workshop/css/atom-one-dark-reasonable.css" rel="stylesheet">
+    <link href="/abstraction-workshop/css/theme.css" rel="stylesheet">
+    <link href="/abstraction-workshop/css/hugo-theme.css" rel="stylesheet">
+    
+      <link href="/abstraction-workshop/css/theme-specterops.css" rel="stylesheet">
+    
+
+    <script src="/abstraction-workshop/js/jquery-3.3.1.min.js"></script>
+
+    <style>
+      :root #header + #content > #left > #rlblock_left{
+          display:none !important;
+      }
+      
+    </style>
+    
+  </head>
+  <body class="" data-url="/abstraction-workshop/labs/eng_rpc_etw/">
+    <nav id="sidebar" class="showVisitedLinks">
+
+
+
+  <div id="header-wrapper">
+    <div id="header">
+      <a id="logo" href="/abstraction-workshop">
+    <font color="white"><i class='fas fa-home'></i> Workshop</font>
+</a>
+
+    </div>
+    
+        <div class="searchbox">
+    <label for="search-by"><i class="fas fa-search"></i></label>
+    <input data-search-input id="search-by" type="search" placeholder="Search...">
+    <span data-search-clear=""><i class="fas fa-times"></i></span>
+</div>
+
+<script type="text/javascript" src="/abstraction-workshop/js/lunr.min.js"></script>
+<script type="text/javascript" src="/abstraction-workshop/js/auto-complete.js"></script>
+<script type="text/javascript">
+    
+        var baseurl = "\/abstraction-workshop";
+    
+</script>
+<script type="text/javascript" src="/abstraction-workshop/js/search.js"></script>
+
+    
+  </div>
+
+    <div class="highlightable">
+    <ul class="topics">
+
+        
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/abstraction-workshop/labs/" title="Labs" class="dd-item 
+        parent
+        
+        
+        ">
+      <a href="/abstraction-workshop/labs/">
+          <i class='fas fa-flask'></i> Labs
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/abstraction-workshop/labs/eng_api_monitor/" title="Engineer a Detection - API Monitor" class="dd-item ">
+        <a href="/abstraction-workshop/labs/eng_api_monitor/">
+        <i class='fab fa-leanpub'></i> Engineer a Detection - API Monitor
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/abstraction-workshop/labs/eng_rpc_etw/" title="Engineer a Detection - Logman ETW" class="dd-item active">
+        <a href="/abstraction-workshop/labs/eng_rpc_etw/">
+        <i class='fab fa-leanpub'></i> Engineer a Detection - Logman ETW
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/abstraction-workshop/labs/eng_procmon/" title="Engineer a Detection - Procmon" class="dd-item ">
+        <a href="/abstraction-workshop/labs/eng_procmon/">
+        <i class='fab fa-leanpub'></i> Engineer a Detection - Procmon
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+         
+    </ul>
+
+    
+    
+      <section id="shortcuts">
+        <h3>More</h3>
+        <ul>
+          
+              <li> 
+                  <a class="padding" href="/abstraction-workshop/"><i class='fas fa-home'></i> Home</a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="https://specterops.io"><i class='fas fa-ghost'></i> Specterops</a>
+              </li>
+          
+        </ul>
+      </section>
+    
+
+    
+    <section id="prefooter">
+      <hr/>
+      <ul>
+      
+      
+      
+        <li><a class="padding" href="#" data-clear-history-toggle=""><i class="fas fa-history fa-fw"></i> Clear History</a></li>
+      
+      </ul>
+    </section>
+    
+    <section id="footer">
+      
+    </section>
+  </div>
+</nav>
+
+
+
+
+
+        <section id="body">
+        <div id="overlay"></div>
+        <div class="padding highlightable">
+              
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/abstraction-workshop/'></a> > <a href='/abstraction-workshop/labs/'>Labs</a> > Engineer a Detection - Logman ETW
+          
+         
+          
+         
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#goals">Goals</a>
+<ul>
+<li><a href="#requirements">Requirements</a></li>
+</ul></li>
+<li><a href="#steps">Steps</a>
+<ul>
+<li><a href="#step-1-query-etw-sessions-and-providers-with-logman">Step 1: Query ETW sessions and providers with &ldquo;logman&rdquo;</a></li>
+<li><a href="#step-2-execute-a-new-service-creation-and-collect-the-data-using-logman">Step 2: Execute a new service creation and collect the data using logman</a></li>
+<li><a href="#step-3-change-the-etl-file-to-evtx-and-import-into-the-event-log">Step 3: Change the ETL file to EVTX and import into the Event Log</a></li>
+<li><a href="#step-4-analyze-the-rpc-logs">Step 4: Analyze the RPC logs</a></li>
+</ul></li>
+<li><a href="#conclusion">Conclusion:</a></li>
+</ul></li>
+</ul>
+</nav>
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
+        <div id="head-tags">
+        
+        </div>
+        
+        <div id="body-inner">
+          
+            <h1>
+              
+              Engineer a Detection - Logman ETW
+            </h1>
+          
+
+        
+
+
+
+
+
+<hr />
+
+<h2 id="goals">Goals</h2>
+
+<ul>
+<li>Understand Event Tracing for Windows.</li>
+<li>Identify Running Traces Sessions and query ETW Providers.</li>
+<li>Use Powershell and Logman to generate and events for consumption.</li>
+</ul>
+
+<p><strong>Scenario</strong></p>
+
+<p>In a previous lab we discovered that New-Service leverages RPC as part of the service creation routine. Until now we have relied on <a href="https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-scmr/705b624a-13de-43cc-b8a2-99573da3635f">Microsoft&rsquo;s Service Control Manager Remote Protocol documentation</a> to make inferences about the implementation details for New-Service&rsquo;s RPC interactions. Inferences are a good start, but we generally like to confirm these details through dynamic or static analysis. As a lead in to this lab, we introduced the idea of Event Tracing for Windows or ETW. This is a logging feature that is available by default on all modern versions of Windows which provides a mechanism for monitoring numerous aspects of the operating system. You are likely very familiar with at least one technology that is the result of ETW, the Windows Security Event Log. The cool thing is that ETW already feeds the Windows Security Event Log, but it also has numerous other events that remain dormant until specifically asked for.</p>
+
+<p>This lab will take you on a tour of one way to explore ETW natively, explain ETW concepts as they become relevant, and show how you can enable targetted logging for testing and validation all within the context of sc.exe and PowerShell&rsquo;s New-Service.</p>
+
+<hr />
+
+<h3 id="requirements">Requirements</h3>
+
+<ul>
+<li>Windows 10 VM</li>
+</ul>
+
+<h2 id="steps">Steps</h2>
+
+<h3 id="step-1-query-etw-sessions-and-providers-with-logman">Step 1: Query ETW sessions and providers with &ldquo;logman&rdquo;</h3>
+
+<ul>
+<li><p>Click on the Windows Start Menu</p></li>
+
+<li><p>In the search bar, type &ldquo;powershell&rdquo;</p></li>
+
+<li><p>Right click on &ldquo;Windows PowerShell&rdquo; and select &ldquo;Run as Administrator&rdquo;</p></li>
+</ul>
+
+<p><img src="images/run_as_admin_powershell.PNG" alt="run_as_admin_powershell" /></p>
+
+<p>To start, we want to take a look at all of the running trace sessions:</p>
+
+<p><strong>Note:</strong> Event tracing sessions record events from <a href="https://docs.microsoft.com/en-us/windows/win32/etw/about-event-tracing#providers">ETW Providers</a>. These sessions are enabled by a <a href="https://docs.microsoft.com/en-us/windows/win32/etw/about-event-tracing#controllers">controller</a>, that is an application in charge of enabling/disabling providers, specifying the log file the tracing sessions are written to, and starting/stopping the event tracing sessions. Controllers can also update and query tracing sessions.</p>
+
+<pre><code>logman query -ets
+</code></pre>
+
+<p><img src="images/logman_query_ets.PNG" alt="logman_query_ets" /></p>
+
+<p>Notice that there are already a few trace sessions running on the system by default. As mentioned earlier in the lab, the trace session where the &ldquo;Data Collector Set&rdquo; is set to EventLog-System is the trace session that is collecting on behalf of the Windows System Event Log.</p>
+
+<p>Let&rsquo;s take a look to see the specific provider that the <code>EventLog-System</code> trace is subscribed to:</p>
+
+<p><strong>Note:</strong> Event Providers are similar to subjects in ETW logging. They are applications that contain the type of events you would like to create tracing sessions for. For example - the  <code>Microsoft-Windows-RPC</code> provider will log events that correlate with different RPC activity.</p>
+
+<pre><code>logman query &quot;EventLog-System&quot; -ets
+</code></pre>
+
+<p><img src="images/logman_query_eventlog.PNG" alt="logman_query_eventlog" /></p>
+
+<p>Make note of the <code>File-Mode</code> field at the top of the output and <code>Name</code> &amp; <code>Provider GUID</code> fields for each subsection.</p>
+
+<p>Now let&rsquo;s take a look at all of the providers availible:</p>
+
+<pre><code>logman query providers
+</code></pre>
+
+<p><img src="images/logman_query_providers.PNG" alt="logman_query_providers" /></p>
+
+<p>Because we want to filter on all of the possible providers, let&rsquo;s store the providers into a variable with this command:</p>
+
+<pre><code>$ETW = logman query providers
+</code></pre>
+
+<p><strong>Note:</strong> This command can take a long time to finish.</p>
+
+<p>To view all of the providers related to RPC run the following command:</p>
+
+<pre><code>$ETW | Where-Object { $_ -Like “*RPC*”}
+</code></pre>
+
+<p><img src="images/where_ETW.PNG" alt="/img/where_ETW" /></p>
+
+<h3 id="step-2-execute-a-new-service-creation-and-collect-the-data-using-logman">Step 2: Execute a new service creation and collect the data using logman</h3>
+
+<p><strong>Note:</strong> For this next step, we want to open up a second powershell. We will refer to this as <code>Powershell #2</code> for the rest of this lab and the first powershell window as <code>Powershell #1</code>.</p>
+
+<ul>
+<li><p>Click on the Windows Start Menu</p></li>
+
+<li><p>In the search bar, type &ldquo;powershell&rdquo;</p></li>
+
+<li><p>Right click on &ldquo;Powershell&rdquo; and select &ldquo;Run as Administrator&rdquo;.</p></li>
+
+<li><p>In <code>Powershell #1</code> start an event tracing session by typing:</p>
+
+<pre><code>logman start RPCTrace -p Microsoft-Windows-RPC 0xffffffffffffffff win:Informational -ets
+</code></pre></li>
+</ul>
+
+
+<div class="notices info" ><p>Breaking down the above command:</p>
+
+<p><code>logman start RPCTrace</code> is going to start an event tracing session with the name &ldquo;RPCTrace&rdquo;.</p>
+
+<p><code>-p Microsoft-Windows-RPC</code> will specify the provider &ldquo;Microsoft-Windows-RPC&rdquo;.</p>
+
+<p><code>0xffffffffffffffff</code> is specifying to capture all RPC Keywords. Keywords are used to classify different types of events.</p>
+
+<p><code>win:Informational</code> is specifying we want to collect informational events.</p>
+
+<p><code>-ets</code> sends the commands to the Event Tracing Session directly versus saving or scheduling.</p>
+</div>
+
+
+<ul>
+<li><p>In <code>Powershell #2</code> create a new service by typing the following command:</p>
+
+<pre><code>New-Service -Name &quot;Test_Service&quot; -BinaryPathName C:\Windows\System32\calc.exe
+</code></pre></li>
+
+<li><p>In <code>Powershell #1</code> stop the tracing session</p>
+
+<pre><code>logman stop RPCTrace -ets
+</code></pre></li>
+</ul>
+
+<h3 id="step-3-change-the-etl-file-to-evtx-and-import-into-the-event-log">Step 3: Change the ETL file to EVTX and import into the Event Log</h3>
+
+<ul>
+<li><p>In <code>Powershell #1</code> output the ETL file to EVTX</p>
+
+<pre><code>tracerpt RPCTrace.etl -o RPCTrace.evtx -of EVTX
+</code></pre></li>
+
+<li><p>In the Start Menu type &ldquo;Event Viewer&rdquo;</p></li>
+
+<li><p>Click on &ldquo;Event Viewer&rdquo;</p></li>
+
+<li><p>In the top left under &ldquo;Action&rdquo; click on &ldquo;Open Saved Log&hellip;&rdquo;</p></li>
+</ul>
+
+<p><img src="images/event_viewer.PNG" alt="event_viewer" /></p>
+
+<ul>
+<li>Go to the path you saved the RPCTrace.evtx file and open it.</li>
+</ul>
+
+<p><strong>Note:</strong> If you didn&rsquo;t change your path when you opened up powershell the path will be - <code>C:\Windows\System32\RPCTrace.evtx</code>.</p>
+
+<ul>
+<li>Click &ldquo;Ok&rdquo;</li>
+</ul>
+
+<p><strong>Note:</strong> RPCTrace will now be under <code>Saved Logs</code> within the Event Viewer.</p>
+
+<h3 id="step-4-analyze-the-rpc-logs">Step 4: Analyze the RPC logs</h3>
+
+<ul>
+<li>In the Event Viewer on the right, click on &ldquo;Find&hellip;&rdquo;</li>
+<li>Type in this UUID: <code>367ABB81-9844-35F1-AD32-98F038001003</code> and press &ldquo;Find Next&rdquo;.</li>
+</ul>
+
+<p><img src="images/evtx.png" alt="evtx" /></p>
+
+<p><strong>Note:</strong> The two RPC UUID&rsquo;s that correlate with Service Creation are: <code>367ABB81-9844-35F1-AD32-98F038001003</code> and <code>338CD001-2244-31F1-AAAA-900038001003</code>. Read more about the <a href="https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-scmr/705b624a-13de-43cc-b8a2-99573da3635f">Service Control Manager Remote Protocol</a>.</p>
+
+<hr />
+
+<h2 id="conclusion">Conclusion:</h2>
+
+<p>This lab was meant to provide a better insight into ETW events and how they can be used to look for RPC events within a host. Unforunately right now, there is no way to provde ETW level context at scale within an organization. However, there are other ways we can capture this type of information. Zeek logs over the network is one, they have a <code>DCE_RPC</code> log that will show when RPC is performed over the network.</p>
+
+
+<footer class=" footline" >
+	
+</footer>
+
+
+        
+        </div> 
+        
+
+      </div>
+
+    <div id="navigation">
+        
+        
+        
+        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+        
+        
+
+
+	 
+	 
+    </div>
+
+    </section>
+    
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="/abstraction-workshop/js/clipboard.min.js"></script>
+    <script src="/abstraction-workshop/js/perfect-scrollbar.min.js"></script>
+    <script src="/abstraction-workshop/js/perfect-scrollbar.jquery.min.js"></script>
+    <script src="/abstraction-workshop/js/jquery.sticky.js"></script>
+    <script src="/abstraction-workshop/js/featherlight.min.js"></script>
+    <script src="/abstraction-workshop/js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="/abstraction-workshop/js/modernizr.custom-3.6.0.js"></script>
+    <script src="/abstraction-workshop/js/learn.js"></script>
+    <script src="/abstraction-workshop/js/hugo-learn.js"></script>
+
+    <link href="/abstraction-workshop/mermaid/mermaid.css" rel="stylesheet" />
+    <script src="/abstraction-workshop/mermaid/mermaid.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+    <script src="/abstraction-workshop/js/extra.js"></script>
+
+  </body>
+</html>
+
