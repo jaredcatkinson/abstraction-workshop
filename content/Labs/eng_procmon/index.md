@@ -71,10 +71,6 @@ Follow the steps below to set Procmon up:
 
 ![Procmon 1](images/procmon_4.png?width=50pc)
 
-*  Click on capture
-
-![Procmon 1](images/procmon_5.png?width=50pc)
-
 Procmon is now configured to show us events for only `powershell.exe` activity on our system
 
 ## 2. Run example using Procmon

@@ -54,7 +54,7 @@ This will invoke a webrequest to download the API Monitor Setup executable and s
 
 ### Step 2: Use API Monitor for Dynamic Analysis
 
-* In powershell start API Monitor by inputting: `. "C:\Program Files\rohitab.com\API Monitor\apimonitor-x64.exe"`
+* Go to the Start Menu, and search for API Monitor (64) and open it
 
 * When prompted, press "Ok"
 
